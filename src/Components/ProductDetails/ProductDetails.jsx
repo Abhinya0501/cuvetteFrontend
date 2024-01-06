@@ -57,7 +57,16 @@ function ProductDetails() {
         <h3>NetWork Error ! Please Refresh the page</h3>
       </div>
     );
-
+    const handleProductCheckout = async () => {
+      if (user) {
+        await dispatch(addToCart({ userId, product }));
+        navigate("/checkout");
+      } else {
+        
+        navigate("/login");
+      }
+    };
+  
   const handleAddToCart = async () => {
     if (user) {
       await dispatch(addToCart({ userId, product }));
@@ -99,7 +108,7 @@ function ProductDetails() {
               )}
               <div className={styles.product_details}>
                 {isMobile && (
-                  <button onClick={handleAddToCart} className={styles.buy_btn}>
+                  <button onClick={handleProductCheckout} className={styles.buy_btn}>
                     Buy Now
                   </button>
                 )}
@@ -175,15 +184,24 @@ function ProductDetails() {
                   ))}
                 </div>
               )}
+              {user?(
+                <>
               <div className={styles.product_btns}>
                 <button onClick={handleAddToCart} className={styles.cart_btn}>
                   Add to Cart
                 </button>
 
-                <button onClick={handleAddToCart} className={styles.buy_btn}>
+                <button onClick={handleProductCheckout} className={styles.buy_btn}>
                   Buy Now
                 </button>
-              </div>
+              </div></>):(<> <div className={styles.product_btns}>
+               
+
+                <button onClick={handleProductCheckout} className={styles.buy_btn}>
+                  Buy Now
+                </button>
+              </div></>)
+              }
             </div>
           </>
         ) : (
